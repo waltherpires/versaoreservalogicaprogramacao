@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
             detalhes.classList.add("info");
             detalhes.setAttribute("id", `detalhe${contatos.indexOf(contato) + 1}`);
             detalhes.style.display = "none";
-            detalhes.innerHTML = `<p>Nome: ${contato.nome}</p> <p>Endereço: ${contato.endereco}</p> <p>Telefone: ${contato.telefone}</p> <p>E-mail: ${contato.email}</p> <button id="btneditar">Editar Contato</button> <button id="btnexcluir${contato.numero}">Excluir Contato</button> <button id="btnproposta${contato.numero}">Nova Proposta</button> <button id="btnmostrar">Propostas</button>`;
+            detalhes.innerHTML = `<p>Nome: ${contato.nome}</p> <p>Endereço: ${contato.endereco}</p> <p>Telefone: ${contato.telefone}</p> <p>E-mail: ${contato.email}</p> <button id="btneditar${contato.numero}">Editar Contato</button> <button id="btnexcluir${contato.numero}">Excluir Contato</button> <button id="btnproposta${contato.numero}">Nova Proposta</button>`;
 
             lista.appendChild(contatoNaLista);
             contatoNaLista.parentNode.insertBefore(
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else if (diaAtual > dia + 6) {
                             proposta.status = "Expirada";
                         } else {
-                            proposta.status = "Aberta";
+                            proposta.status = "Ativa";
                         }
                     }
 
@@ -102,11 +102,9 @@ document.addEventListener("click", function (e) {
         var telefone = prompt("Digite o telefone");
         var email = prompt("Digite o email");
 
-        //Verifica se não há campos vazios
         if (nome === "" || endereco === "" || telefone === "" || email === "") {
             alert("Valor invalido. Por favor, insira um valor valido");
         } else {
-            //salva em um objeto
             var novoContato = {
                 numero: contatos.length + 1,
                 nome: nome,
@@ -136,7 +134,6 @@ document.addEventListener("click", function (e) {
                 detalhes,
                 contatoNaLista.nextSibling
             ); //Adiciona os detalhes após o novo cliente
-
             renderContatos();
         }
     }
@@ -153,19 +150,91 @@ document.addEventListener("click", function (e) {
 
     for (let i = 0; i < propostas.length; i++) {
         if (el.getAttribute("id") === `btnfechar${i + 1}`) {
-            let confirmar = prompt('Deseja fechar esta proposta?');
-            if (
-                confirmar &&
-                (confirmar.toLowerCase() === 's' || confirmar.toLowerCase() === "sim")
-            ) {
-                propostas[i].status = 'Fechada';
-                salvarLocalStorage();
+            if(propostas[i].status === 'Fechada'){
+                continue;
             }
-            
+            else {
+                let confirmar = prompt('Deseja fechar esta proposta?');
+                if (
+                    confirmar &&
+                    (confirmar.toLowerCase() === 's' || confirmar.toLowerCase() === "sim")
+                ) {
+                    propostas[i].status = 'Fechada';
+                    salvarLocalStorage();
+                }
+            }
+
         }
     }
 
     for (let i = 0; i < contatos.length; i++) {
+
+        //Botao de Editar Contato
+        if(el.getAttribute("id") === `btneditar${i + 1}`){
+
+            // Editar Nome
+            let editarNome = prompt('Deseja editar o nome do contato?')
+            if(
+                editarNome &&
+                (editarNome.toLowerCase() === "sim" || editarNome.toLowerCase() === "s")
+            ){
+                var nome = prompt("Digte o nome");
+                if(nome === ""){
+                    alert('Digite um valor válido')
+                }
+                else {
+                    contatos[i].nome = nome;
+                }
+            }
+
+            //Editar endereco
+            let editarEndereco = prompt('Deseja editar o endereco do contato?')
+            if(
+                editarEndereco &&
+                (editarEndereco.toLowerCase() === "sim" || editarEndereco.toLowerCase() === "s")
+            ){
+                var endereco = prompt("Digite o endereco");
+                if(endereco === ""){
+                    alert("Digite um valor válido")
+                }
+                else {
+                    contatos[i].endereco = endereco;
+                }
+            }
+
+            //Editar telefone
+            let editarTelefone = prompt("Deseja editar o telefone do contato?")
+            if(
+                editarTelefone &&
+                (editarTelefone.toLowerCase() === "sim" || editarTelefone.toLowerCase() === "s")
+            ){
+                var telefone = prompt("Digite o telefone");
+                if(telefone === ""){
+                    alert("Digite um valor válido")
+                }
+                else{
+                    contatos[i].telefone = telefone;
+                }
+            }
+
+            //Editar email
+            let editarEmail = prompt("Deseja editar o email do contato?")
+            if(
+                editarEmail &&
+                (editarEmail.toLowerCase() === "sim" || editarEmail.toLowerCase() === "s")
+            ){
+                var email = prompt("Digite o email");
+                if(email === ""){
+                    alert("Digite um valor válido")
+                }
+                else{
+                    contatos[i].email = email;
+                }
+            }
+
+            salvarLocalStorage();
+        }
+
         //botão de adicionar Proposta
         if (el.getAttribute("id") === `btnproposta${i + 1}`) {
             detalhes = document.getElementById(`detalhe${i + 1}`);
@@ -194,6 +263,7 @@ document.addEventListener("click", function (e) {
 
                 renderPropostas();
             }
+            
         }
 
         //Botão de excluir contato
@@ -237,8 +307,6 @@ document.addEventListener("click", function (e) {
             }
         }
     }
-
-    /*  if(el.getAttribute('id') === "btnproposta") */
 
     //Função do LocalStorage
     function salvarLocalStorage() {
