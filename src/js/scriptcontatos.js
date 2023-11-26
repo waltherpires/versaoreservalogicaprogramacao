@@ -8,7 +8,6 @@ var dataAtual = new Date();
 var anoAtual = dataAtual.getFullYear();
 var mesAtual = dataAtual.getMonth() + 1;
 var diaAtual = dataAtual.getDate();
-console.log(diaAtual);
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 /*CARREGAR BANCO DE DADOS SALVO NO LOCALSTORAGE*/
