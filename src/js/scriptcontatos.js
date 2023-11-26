@@ -217,16 +217,8 @@ document.addEventListener("click", function (e) {
 
                 // Remover o contato
                 contatos.splice(i, 1);
-
+                corrigirNumero(i);
                 salvarLocalStorage();
-
-                var contatoExcluido = document.getElementById(`contato${i + 1}`);
-                contatoExcluido.parentNode.removeChild(contatoExcluido);
-
-                var detalheExcluido = document.getElementById(`detalhe${i + 1}`);
-                detalheExcluido.parentNode.removeChild(detalheExcluido);
-
-                atualizarIDs();
             }
         }
 
@@ -254,22 +246,10 @@ document.addEventListener("click", function (e) {
 });
 
 //Corrigir problema que ocorre ao excluir contato
-function atualizarIDs() {
-    for (let i = 0; i < contatos.length; i++) {
-        //Atualizar ids nos contatos
-        var contato = document.getElementById(`contato${i + 1}`);
-        contato.setAttribute("id", `contato${i + 1}`);
-
-        //Atualizar ids nos detalhes
-        var detalhe = document.getElementById(`detalhe${i + 1}`);
-        detalhe.setAttribute("id", `detalhe${i + 1}`);
-
-        //Atualizar ids nos botões de proposta
-        var btnProposta = document.getElementById(`btnproposta${i + 1}`);
-        btnProposta.setAttribute("id", `btnproposta${i + 1}`);
-
-        //Atualizar ids no botões de exclusão
-        var btnExcluir = document.getElementById(`btnexcluir${i + 1}`);
-        btnExcluir.setAttribute("id", `btnexcluir${i + 1}`);
+function corrigirNumero(contatoExcluido) {
+    for(let i = contatoExcluido; i < contatos.length; i++) {
+        contatos[i].numero = i + 1;
     }
+    
 }
+
