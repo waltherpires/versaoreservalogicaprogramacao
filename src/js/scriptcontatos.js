@@ -71,11 +71,14 @@ document.addEventListener("DOMContentLoaded", function () {
           //Verificar status da proposta
           if (anoAtual > ano) {
             proposta.status = "Expirada";
-          } else if (mesAtual > mes) {
-            proposta.status = "Expirada";
-          } else if (diaAtual > dia + 6) {
-            proposta.status = "Expirada";
           } 
+          else if ((anoAtual == ano) && (mesAtual > mes)) {
+            proposta.status = "Expirada";
+          } else if ((mesAtual == mes) && (diaAtual > dia + 6)) {
+            proposta.status = "Expirada";
+          } else if ((mesAtual == mes + 1) && (diaAtual < 6)){
+            proposta.status = "Expirada";
+          }
             
           textoProposta.innerHTML += `<tr> <td>${proposta.num}</td> <td>${proposta.data}</td> <td>R$ ${proposta.valor}</td> <td>${proposta.status}</td> <td><button id="btnfechar${proposta.num}">Fechar</button></td> </tr>`;
         }
