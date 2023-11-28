@@ -16,7 +16,14 @@
         <button id="sair">Sair</button>
 
 </main>
-
+<script>
+    document.addEventListener("click", function(e){
+        const el = e.target;
+        if(el.getAttribute("id") == "sair"){
+            window.close();
+        }
+    })
+</script>
 
 </body>
 </html>
