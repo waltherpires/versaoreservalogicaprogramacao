@@ -5,6 +5,7 @@ var qtdpropostas;
 var detalhes;
 
 var dataAtual = new Date();
+
 var anoAtual = dataAtual.getFullYear();
 var mesAtual = dataAtual.getMonth() + 1;
 var diaAtual = dataAtual.getDate();
@@ -68,18 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
           ano = Number(ano);
 
           //Verificar status da proposta
-          if (proposta.status !== "Fechada") {
-            if (anoAtual > ano) {
-              proposta.status = "Expirada";
-            } else if (mesAtual > mes) {
-              proposta.status = "Expirada";
-            } else if (diaAtual > dia + 6) {
-              proposta.status = "Expirada";
-            } else {
-              proposta.status = "Ativa";
-            }
-          }
-          
+          if (anoAtual > ano) {
+            proposta.status = "Expirada";
+          } else if (mesAtual > mes) {
+            proposta.status = "Expirada";
+          } else if (diaAtual > dia + 6) {
+            proposta.status = "Expirada";
+          } 
+            
           textoProposta.innerHTML += `<tr> <td>${proposta.num}</td> <td>${proposta.data}</td> <td>R$ ${proposta.valor}</td> <td>${proposta.status}</td> <td><button id="btnfechar${proposta.num}">Fechar</button></td> </tr>`;
         }
       });
@@ -101,7 +98,12 @@ document.addEventListener("click", function (e) {
     var telefone = prompt("Digite o telefone");
     var email = prompt("Digite o email");
 
-    if (nome === "" || endereco === "" || telefone === "" || email === "") {
+    if (
+      nome === ("" || null) ||
+      endereco === ("" || null) ||
+      telefone === ("" || null) ||
+      email === ("" || null)
+    ) {
       alert("Valor invalido. Por favor, insira um valor valido");
     } else {
       var novoContato = {
@@ -149,7 +151,7 @@ document.addEventListener("click", function (e) {
 
   for (let i = 0; i < propostas.length; i++) {
     if (el.getAttribute("id") === `btnfechar${i + 1}`) {
-      if (propostas[i].status === "Fechada") {
+      if (propostas[i].status !== "Ativa") {
         continue;
       } else {
         let confirmar = prompt("Deseja fechar esta proposta?");
@@ -174,7 +176,7 @@ document.addEventListener("click", function (e) {
         (editarNome.toLowerCase() === "sim" || editarNome.toLowerCase() === "s")
       ) {
         var nome = prompt("Digte o nome");
-        if (nome === "") {
+        if (nome === ("" || null)) {
           alert("Digite um valor válido");
         } else {
           contatos[i].nome = nome;
@@ -189,7 +191,7 @@ document.addEventListener("click", function (e) {
           editarEndereco.toLowerCase() === "s")
       ) {
         var endereco = prompt("Digite o endereco");
-        if (endereco === "") {
+        if (endereco === ("" || null)) {
           alert("Digite um valor válido");
         } else {
           contatos[i].endereco = endereco;
@@ -204,7 +206,7 @@ document.addEventListener("click", function (e) {
           editarTelefone.toLowerCase() === "s")
       ) {
         var telefone = prompt("Digite o telefone");
-        if (telefone === "") {
+        if (telefone === ("" || null)) {
           alert("Digite um valor válido");
         } else {
           contatos[i].telefone = telefone;
@@ -219,7 +221,7 @@ document.addEventListener("click", function (e) {
           editarEmail.toLowerCase() === "s")
       ) {
         var email = prompt("Digite o email");
-        if (email === "") {
+        if (email === ("" || null)) {
           alert("Digite um valor válido");
         } else {
           contatos[i].email = email;
@@ -234,20 +236,21 @@ document.addEventListener("click", function (e) {
       qtdpropostas = propostas.length;
 
       var nomeContato = contatos[i].nome;
+      var data = prompt("Digite a data da proposta");
+      var valor = prompt("Digite o valor da proposta");
 
-      var novaProposta = {
-        nomeContato: nomeContato,
-        num: propostas.length + 1,
-        data: prompt("Digite a data da proposta"),
-        valor: prompt("Digite o valor da proposta"),
-        status: "Ativa",
-      };
-
-      // LocalStorage
-      if (novaProposta.data === "" || novaProposta.valor === "") {
+      if (data === ("" || null) || valor === ("" || null)) {
         alert("Valor invalido. Por favor, insira um valor valido");
       } else {
+        var novaProposta = {
+          nomeContato: nomeContato,
+          num: propostas.length + 1,
+          data: data,
+          valor: valor,
+          status: "Ativa",
+        };
         propostas.push(novaProposta);
+        // LocalStorage
         salvarLocalStorage();
 
         var novaLinha = document.createElement("p");
