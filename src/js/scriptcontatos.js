@@ -108,7 +108,16 @@ document.addEventListener("click", function (e) {
       email === ("" || null)
     ) {
       alert("Valor invalido. Por favor, insira um valor valido");
-    } else {
+    } else if(nome.match(/\d/)) {
+      alert("O nome não deve conter numeros");
+    } else if(!email.includes("@")) {
+      alert("E-mail invalido") 
+    } else if(telefone.match(/[a-zA-Z]/)){
+      alert("O telefone nao deve incluir letras")
+    } else if(telefone.length > 12 || telefone.length < 9) {
+      alert("Numero de telefone invalido (Deve conter entre 9 e 11 digitos)")
+    }
+    else {
       var novoContato = {
         numero: contatos.length + 1,
         nome: nome,
@@ -240,11 +249,27 @@ document.addEventListener("click", function (e) {
 
       var nomeContato = contatos[i].nome;
       var data = prompt("Digite a data da proposta");
+      [dia, mes, ano] = data.split('/');
+      dia = Number(dia);
+      mes = Number(mes);
+      ano = Number(ano);
+
       var valor = prompt("Digite o valor da proposta");
 
       if (data === ("" || null) || valor === ("" || null)) {
         alert("Valor invalido. Por favor, insira um valor valido");
-      } else {
+      } else if(data.match(/[a-zA-Z]/)){
+        alert("A data nao deve conter letras");
+      } else if(valor.match(/[a-zA-Z]/)) {
+        alert("O valor nao deve conter letras");
+      } else if(dia > 31 || (ano === anoAtual && mes === mesAtual && dia > diaAtual)) {
+        alert('Dia invalido');
+      } else if(mes > 12 || (ano === anoAtual && mes > mesAtual)) {
+        alert('Mes invalido');
+      } else if(ano > anoAtual){
+        alert("Ano invalido");
+      }
+      else {
         var novaProposta = {
           nomeContato: nomeContato,
           num: propostas.length + 1,
