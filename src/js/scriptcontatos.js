@@ -63,23 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       propostas.forEach(function (proposta) {
         if (proposta.nomeContato === contatos[i - 1].nome) {
-          [dia, mes, ano] = proposta.data.split("/");
-          dia = Number(dia);
-          mes = Number(mes);
-          ano = Number(ano);
-
-          //Verificar status da proposta
-          if (anoAtual > ano) {
-            proposta.status = "Expirada";
-          } 
-          else if ((anoAtual == ano) && (mesAtual > mes)) {
-            proposta.status = "Expirada";
-          } else if ((mesAtual == mes) && (diaAtual > dia + 6)) {
-            proposta.status = "Expirada";
-          } else if ((mesAtual == mes + 1) && (diaAtual < 6)){
-            proposta.status = "Expirada";
-          }
-            
           textoProposta.innerHTML += `<tr> <td>${proposta.num}</td> <td>${proposta.data}</td> <td>R$ ${proposta.valor}</td> <td>${proposta.status}</td> <td><button id="btnfechar${proposta.num}">Fechar</button></td> </tr>`;
         }
       });
@@ -191,6 +174,11 @@ document.addEventListener("click", function (e) {
         if (nome === ("" || null)) {
           alert("Digite um valor válido");
         } else {
+          for(let j = 0; j < propostas.length; j++){
+            if(propostas[j].nomeContato == contatos[i].nome){
+              propostas[j].nomeContato = nome;
+            }
+          }
           contatos[i].nome = nome;
         }
       }
@@ -253,6 +241,18 @@ document.addEventListener("click", function (e) {
       dia = Number(dia);
       mes = Number(mes);
       ano = Number(ano);
+      var status = 'Ativa';
+      //Verificar status da proposta
+      if (anoAtual > ano) {
+        status = "Expirada";
+      } 
+      else if ((anoAtual == ano) && (mesAtual > mes)) {
+        status = "Expirada";
+      } else if ((mesAtual == mes) && (diaAtual > dia + 6)) {
+        status = "Expirada";
+      } else if ((mesAtual == mes + 1) && (diaAtual < 6)){
+        status = "Expirada";
+      }
 
       var valor = prompt("Digite o valor da proposta");
 
@@ -275,7 +275,7 @@ document.addEventListener("click", function (e) {
           num: propostas.length + 1,
           data: data,
           valor: valor,
-          status: "Ativa",
+          status: status,
         };
         propostas.push(novaProposta);
         // LocalStorage
