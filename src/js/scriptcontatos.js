@@ -336,6 +336,7 @@ document.addEventListener("click", function (e) {
     localStorage.setItem("contatos", JSON.stringify(contatos));
     localStorage.setItem("propostas", JSON.stringify(propostas));
   }
+
 });
 
 //Corrigir problema que ocorre ao excluir contato
